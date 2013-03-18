@@ -68,7 +68,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ABInput.cpp" />
+    <ClCompile Include="ABProjectile.cpp" />
+    <ClCompile Include="ABXBoxController.cpp" />
+    <ClCompile Include="ControllableEntity.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ABInput.h" />
+    <ClInclude Include="ABProjectile.h" />
+    <ClInclude Include="ABXBoxController.h" />
+    <ClInclude Include="ControllableEntity.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

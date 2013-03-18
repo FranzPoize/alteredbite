@@ -14,47 +14,29 @@
 // to the same folder.
 
 
+#include <Windows.h>
 #include <hge.h>
 #include <hgesprite.h>
 #include <hgefont.h>
 #include <hgeparticle.h>
 #include <list>
+#include <memory>
 
-class Projectile
-{
-public:
-	hgeSprite* sprite;
-	float x;
-	float y;
-
-	Projectile(HTEXTURE tex, float x,float y,float w, float h,float posx,float posy);
-	void render();
-};
-
-Projectile::Projectile(HTEXTURE tex, float x,float y,float w, float h,float posx,float posy)
-{
-	sprite = new hgeSprite(tex,x,y,w,h);
-	this->x = posx;
-	this->y = posy;
-}
-
-void Projectile::render()
-{
-	sprite->Render(x,y);
-}
+#include "ABProjectile.h"
+#include "ABInput.h"
+#include "Player.h"
+#include "ControllableEntity.h"
 
 
 // Pointer to the HGE interface.
 // Helper classes require this to work.
 HGE *hge=0;
 
-
 // Pointers to the HGE objects we will use
-hgeSprite*			spr;
 hgeSprite*			spt;
 hgeFont*			fnt;
 hgeParticleSystem*	par;
-std::list<Projectile> projList;
+std::list<ABProjectile> projList;
 
 
 // Handles for HGE resourcces
@@ -62,6 +44,7 @@ HTEXTURE			tex;
 HTEXTURE			pibiTex;
 HTEXTURE			projTex;
 HEFFECT				snd;
+ControllableEntity* controlledPlayer;
 
 // Some "gameplay" variables
 float x=20.0f, y=22.0f,floorHeight;
@@ -71,6 +54,7 @@ const float speed=90;
 const float friction=0.98f;
 const float gravity=45.0f;
 const int INTERVAL_SHOOT = 20.0f;
+std::shared_ptr<ABXBoxController> controller(new ABXBoxController());;
 
 bool jump = false;
 int interval = 0;
@@ -89,42 +73,15 @@ bool FrameFunc()
 	if (interval > 0)
 		interval--;
 	// Process keys
-	if (hge->Input_GetKeyState(HGEK_ESCAPE)) return true;
-	if (hge->Input_GetKeyState(HGEK_Q)) dx=-speed/20;
-	else if (hge->Input_GetKeyState(HGEK_D)) dx=speed/20;
-	else dx = 0;
-	if (hge->Input_GetKeyState(HGEK_SPACE) && !jump)
-	{
-		dy-=speed/10;
-		jump = true;
-		y+=dy;
-	}
 	if (hge->Input_GetKeyState(HGEK_LBUTTON) && interval == 0) {
 		interval = INTERVAL_SHOOT;
-		Projectile *proj = new Projectile(projTex,16,16,16,16,x,y);
+		ABProjectile *proj = new ABProjectile(projTex,16,16,16,16,x,y);
 		projList.push_back(*proj);
 	}
 
-	// Do some movement calculations and collision detection	
-	if(x>784) {x=784-(x-784);dx=0;}
-	if(x<16) {x=16+16-x;dx=0;}
-	if(y>584) {y=584-(y-584);dy=0;}
-	if (y < floorHeight - 22.0f) 
-	{
-		dy += gravity*dt;
-		y+=dy;
-	} 
-	else 
-	{
-		dy=0.0f;
-		y=floorHeight - 22.0f;
-		if (jump)
-			jump = false;
-	}
+	controlledPlayer->update();
 
-	x+=dx; 
-
-	std::list<Projectile>::iterator i;
+	std::list<ABProjectile>::iterator i;
 	for (i = projList.begin(); i != projList.end();)
 	{
 		(*i).x+=speed*10*dt;
@@ -149,8 +106,8 @@ bool RenderFunc()
 	hge->Gfx_BeginScene();
 	hge->Gfx_Clear(0);
 	par->Render();
-	spr->Render(x, y);
-	std::list<Projectile>::iterator i;
+	std::list<ABProjectile>::iterator i;
+	controlledPlayer->draw();
 	for (i = projList.begin(); i != projList.end();++i)
 	{
 		(*i).render();
@@ -180,8 +137,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// Load sound and texture
 		snd=hge->Effect_Load("menu.wav");
+
 		tex=hge->Texture_Load("particles.png");
-		pibiTex=hge->Texture_Load("pibi.png");
+		pibiTex = hge->Texture_Load("pibi.png");
 		projTex=hge->Texture_Load("proj.png");
 		if(!snd || !tex || !pibiTex)
 		{
@@ -196,10 +154,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		floorHeight = (float)hge->System_GetState(HGE_SCREENHEIGHT) - 20.0f;
 		y = floorHeight - 22.0f;
 
-		// Create and set up a sprite
-		spr=new hgeSprite(pibiTex, 39, 44, 39, 44);
-		spr->SetBlendMode(BLEND_COLORMUL | BLEND_ALPHAADD | BLEND_NOZWRITE);
-		spr->SetHotSpot(19,22);
+		std::shared_ptr<Player> player(new Player(pibiTex, 39, 44, 39, 44,19,22,hge));
+		std::shared_ptr<ABInput> inputComponent(new ABInput(controller));
+		controlledPlayer = new ControllableEntity(player,inputComponent);
 
 		// Load a font
 		fnt=new hgeFont("font1.fnt");
@@ -218,13 +175,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		delete par;
 		delete fnt;
 		delete spt;
-		delete spr;
+		delete controlledPlayer;
 		hge->Texture_Free(tex);
+		hge->Texture_Free(pibiTex);
+		hge->Texture_Free(projTex);
 		hge->Effect_Free(snd);
 	}
 
 	// Clean up and shutdown
 	hge->System_Shutdown();
 	hge->Release();
+	controller.reset();
 	return 0;
 }
+
