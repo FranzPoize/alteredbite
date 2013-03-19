@@ -176,6 +176,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		delete fnt;
 		delete spt;
 		delete controlledPlayer;
+		player.reset();
+		controller.reset();
+		inputComponent.reset();
 		hge->Texture_Free(tex);
 		hge->Texture_Free(pibiTex);
 		hge->Texture_Free(projTex);
@@ -185,7 +188,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// Clean up and shutdown
 	hge->System_Shutdown();
 	hge->Release();
-	controller.reset();
 	return 0;
 }
 
