@@ -1,0 +1,5 @@
+
+// REV :
+Eviter les magic numbers :
+Au minimum des define dans un header commun, au moins les listes de chiffres sont remplacé par des nom descriptifs et réutilisables
+Si possible un singleton de config (pour pouvoir changer les valeurs de gameplay sans recompiler -> important pour les artistes)

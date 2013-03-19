@@ -21,6 +21,7 @@ bool ABXBoxController::IsConnected()
 	ZeroMemory( &_controllerState, sizeof(XINPUT_STATE) );
 
 	DWORD dwResult = XInputGetState(_controllerNum,&_controllerState);
+    // loul, was success so unexpected ?
 	return dwResult == ERROR_SUCCESS;
 }
 

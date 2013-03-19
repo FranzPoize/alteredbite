@@ -48,6 +48,7 @@ void ABInput::update(ControllableEntity& entity)
 
 		if (LX < 0 && lMagnitude > 0) left = true;
 		else if (LX > 0 && lMagnitude > 0) right = true;
+        // REV: redondant
 		else 
 		{
 			left = false;

@@ -47,6 +47,7 @@ HEFFECT				snd;
 ControllableEntity* controlledPlayer;
 
 // Some "gameplay" variables
+// REV: faut pas hésiter à utiliser des nom très long, si je devais deviner à quoi elles servent je dirais playerXPos, playerYPos ?
 float x=20.0f, y=22.0f,floorHeight;
 float dx=0.0f, dy=0.0f;
 
@@ -54,6 +55,7 @@ const float speed=90;
 const float friction=0.98f;
 const float gravity=45.0f;
 const int INTERVAL_SHOOT = 20.0f;
+// REV : dans l'absolu pas besoin de partager la possession, c'est une variable globale initialisée.
 std::shared_ptr<ABXBoxController> controller(new ABXBoxController());;
 
 bool jump = false;
@@ -70,19 +72,22 @@ bool FrameFunc()
 {
 	float dt=hge->Timer_GetDelta();
 
+    // REV: de la bonne vieille animation framecounted  ; )
 	if (interval > 0)
 		interval--;
 	// Process keys
 	if (hge->Input_GetKeyState(HGEK_LBUTTON) && interval == 0) {
 		interval = INTERVAL_SHOOT;
-		ABProjectile *proj = new ABProjectile(projTex,16,16,16,16,x,y);
-		projList.push_back(*proj);
+        //REV: les containers STL stockent des *copies* des objets.
+        projList.push_back(ABProjectile(projTex,16,16,16,16,x,y));
+		//ABProjectile *proj = new ABProjectile(projTex,16,16,16,16,x,y);
+		//projList.push_back(*proj);
 	}
 
 	controlledPlayer->update();
 
-	std::list<ABProjectile>::iterator i;
-	for (i = projList.begin(); i != projList.end();)
+	for (std::list<ABProjectile>::iterator i = projList.begin();
+        i != projList.end();)
 	{
 		(*i).x+=speed*10*dt;
 		if ((*i).x > 784)
@@ -106,9 +111,12 @@ bool RenderFunc()
 	hge->Gfx_BeginScene();
 	hge->Gfx_Clear(0);
 	par->Render();
-	std::list<ABProjectile>::iterator i;
 	controlledPlayer->draw();
-	for (i = projList.begin(); i != projList.end();++i)
+
+    //REV: L'itérateur a une portée confinée comme ça
+	for(std::list<ABProjectile>::iterator i = projList.begin();
+        i != projList.end();
+        ++i)
 	{
 		(*i).render();
 	}
@@ -176,9 +184,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		delete fnt;
 		delete spt;
 		delete controlledPlayer;
-		player.reset();
-		controller.reset();
-		inputComponent.reset();
+		
+        // REV : inutile, la variable locale player sort du scope dans quelques lignes (et donc l'objet 'shared pointer' va être détruit, détruisant le l'objet 'Player' s'il est seul à le posséder)
+        // c'est l'intérêt des smart_p
+        //player.reset();
+		//controller.reset();
+		//inputComponent.reset();
 		hge->Texture_Free(tex);
 		hge->Texture_Free(pibiTex);
 		hge->Texture_Free(projTex);
