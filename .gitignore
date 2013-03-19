@@ -45,6 +45,10 @@ obj/
 [Rr]elease*/
 Ankh.NoLoad
 
+*.sln
+*.vcxproj
+*.filters
+
 #MonoDevelop
 *.pidb
 *.userprefs
