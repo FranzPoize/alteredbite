@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Slightly Altered Mildly Wil
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModeratlyPortedSlightlyAlteredMildlyWildBeast", "ModeratlyPortedSlightlyAlteredMildlyWildBeast\ModeratlyPortedSlightlyAlteredMildlyWildBeast.vcxproj", "{47FD3E28-4B50-42F0-A530-E1C7903484C6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SPSAMWA", "SPSAMWA\SPSAMWA.vcxproj", "{979F5FAD-BF25-485D-8C4E-2574A3216F1A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,10 +19,6 @@ Global
 		{47FD3E28-4B50-42F0-A530-E1C7903484C6}.Debug|Win32.Build.0 = Debug|Win32
 		{47FD3E28-4B50-42F0-A530-E1C7903484C6}.Release|Win32.ActiveCfg = Release|Win32
 		{47FD3E28-4B50-42F0-A530-E1C7903484C6}.Release|Win32.Build.0 = Release|Win32
-		{979F5FAD-BF25-485D-8C4E-2574A3216F1A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{979F5FAD-BF25-485D-8C4E-2574A3216F1A}.Debug|Win32.Build.0 = Debug|Win32
-		{979F5FAD-BF25-485D-8C4E-2574A3216F1A}.Release|Win32.ActiveCfg = Release|Win32
-		{979F5FAD-BF25-485D-8C4E-2574A3216F1A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
