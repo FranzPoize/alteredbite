@@ -65,7 +65,7 @@ public:
                 int update_time = CL_System::get_time();
                 pibi.draw();
                 int draw_time = CL_System::get_time();
-                window.flip(1);
+                window.flip(0);
 
 
                 flip_time = CL_System::get_time();

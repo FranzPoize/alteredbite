@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Slightly Altered Mildly Wil
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModeratlyPortedSlightlyAlteredMildlyWildBeast", "ModeratlyPortedSlightlyAlteredMildlyWildBeast\ModeratlyPortedSlightlyAlteredMildlyWildBeast.vcxproj", "{47FD3E28-4B50-42F0-A530-E1C7903484C6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Samouette", "Samouette\Samouette.vcxproj", "{141546E6-364E-49A1-B065-85E8B864B36D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{47FD3E28-4B50-42F0-A530-E1C7903484C6}.Debug|Win32.Build.0 = Debug|Win32
 		{47FD3E28-4B50-42F0-A530-E1C7903484C6}.Release|Win32.ActiveCfg = Release|Win32
 		{47FD3E28-4B50-42F0-A530-E1C7903484C6}.Release|Win32.Build.0 = Release|Win32
+		{141546E6-364E-49A1-B065-85E8B864B36D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{141546E6-364E-49A1-B065-85E8B864B36D}.Debug|Win32.Build.0 = Debug|Win32
+		{141546E6-364E-49A1-B065-85E8B864B36D}.Release|Win32.ActiveCfg = Release|Win32
+		{141546E6-364E-49A1-B065-85E8B864B36D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

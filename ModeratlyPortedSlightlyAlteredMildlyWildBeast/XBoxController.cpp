@@ -18,6 +18,7 @@ XBoxController::XBoxController(int aControllerId) :
     
 void XBoxController::update(Entity &aEntity, float dt)
 {
+    int enter = CL_System::get_time();
     if (updateState()==ERROR_SUCCESS)
     {
         float xInput = 0.f;
@@ -60,11 +61,14 @@ void XBoxController::update(Entity &aEntity, float dt)
 
 
         //CL_Console::write_line("Value : %1", xInput);
+        int middle = CL_System::get_time();
 
         WORD buttons = mControllerState.Gamepad.wButtons;
         bool jump = buttons & XINPUT_GAMEPAD_A;
 
         aEntity.move(dt, xInput, jump);
+        int end = CL_System::get_time();
+        cl_log_event("info", "\t update details : state:%1, move:%2", middle-enter, end-middle);
     }
 }
 
