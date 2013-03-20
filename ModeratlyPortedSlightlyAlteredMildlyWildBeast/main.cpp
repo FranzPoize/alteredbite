@@ -12,33 +12,6 @@
 #include "DrawerSprite.h"
 #include "XBoxController.h"
 
-//class Entity
-//{
-//public:
-//    Entity(CL_GraphicContext &gc, CL_SpriteDescription &description):
-//        mGc(gc),
-//        mSprite(gc, description),
-//        mXPos(20.),
-//        mYPos(20.)
-//    {
-//    }
-//
-//    void update(CL_InputDevice &aInputDevice)
-//    {
-//        mXPos += aInputDevice.get_axis(0);
-//    }
-//
-//    void draw()
-//    {
-//        mSprite.draw(mGc, mXPos, mYPos);
-//    }
-//
-//private:
-//    CL_GraphicContext &mGc;
-//    CL_Sprite mSprite;
-//    float mXPos, mYPos;
-//};
-
 class ConsoleProgram
 {
 public:
@@ -71,6 +44,7 @@ public:
             std::shared_ptr<AB::Drawer> pibiDrawer = std::make_shared<AB::DrawerSprite>(gc, pibiSprite);
 
             std::shared_ptr<AB::Controller> pibiController = std::make_shared<AB::XBoxController>();
+
             AB::Entity pibi(pibiController, pibiDrawer);
 
             unsigned int current_time=CL_System::get_time(), last_time=current_time-1;
@@ -79,6 +53,7 @@ public:
                 current_time = CL_System::get_time();
                 float delta = (current_time-last_time)/1000.f;
                 last_time = current_time;
+                CL_Console::write_line("dt : %1", delta);
 
                 gc.clear(CL_Colorf::whitesmoke);
                 pibi.update(delta);

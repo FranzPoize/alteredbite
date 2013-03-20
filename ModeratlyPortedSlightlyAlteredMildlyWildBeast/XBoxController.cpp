@@ -59,7 +59,7 @@ void XBoxController::update(Entity &aEntity, float dt)
         //}
 
 
-        CL_Console::write_line("Value : %1", xInput);
+        //CL_Console::write_line("Value : %1", xInput);
 
         WORD buttons = mControllerState.Gamepad.wButtons;
         bool jump = buttons & XINPUT_GAMEPAD_A;
