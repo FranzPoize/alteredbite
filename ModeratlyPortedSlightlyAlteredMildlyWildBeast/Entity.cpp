@@ -4,6 +4,7 @@
 #include "Drawer.h"
 
 #include "constants.h"
+#include <ClanLib/core.h>
 
 using namespace AB;
 
@@ -27,7 +28,9 @@ void Entity::draw()
 
 void Entity::move(float dt, float aXInput, bool aJump)
 {
-    mXpos += aXInput*TOP_SPEED*dt;
+    float mv = aXInput*TOP_SPEED*dt;
+    cl_log_event("info", "move result : %1 (%2 x %3)", mv, aXInput, dt);
+    mXpos += mv;
     if(mXpos<0.)
     {
         mXpos = 0.;
