@@ -71,6 +71,8 @@ void boom() {
 bool FrameFunc()
 {
 	float dt=hge->Timer_GetDelta();
+    if(dt>0.019f) hge->System_Log("ABNORMAL Time delta; %f", dt);
+    else hge->System_Log("Time delta; %f", dt);
 
     // REV: de la bonne vieille animation framecounted  ; )
 	if (interval > 0)
