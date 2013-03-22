@@ -38,6 +38,10 @@ protected:
     float mXpos;
     float mYpos;
 
+	float vSpeed;
+	float vRatio;
+
+	int btnJumpPower;
 };
 
 }

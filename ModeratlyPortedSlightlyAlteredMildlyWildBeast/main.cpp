@@ -17,6 +17,8 @@ class ConsoleProgram
 public:
     static int main(const std::vector<CL_String> &args)
     {
+		HANDLE process = GetCurrentProcess();
+		SetPriorityClass(process, ABOVE_NORMAL_PRIORITY_CLASS);
         CL_SetupCore setup_core;
         CL_SetupDisplay setup_display;
         CL_SetupGL setup_opengl;
@@ -43,8 +45,9 @@ public:
         {
             CL_SpriteDescription pibiDescription;
             pibiDescription.add_frame("./pibi.png");
+
             CL_Sprite pibiSprite(gc, pibiDescription);
-            pibiSprite.set_alignment(origin_bottom_left);
+			pibiSprite.set_alignment(origin_bottom_left);
             std::shared_ptr<AB::Drawer> pibiDrawer = std::make_shared<AB::DrawerSprite>(gc, pibiSprite);
 
             std::shared_ptr<AB::Controller> pibiController = std::make_shared<AB::XBoxController>();
@@ -78,8 +81,8 @@ public:
                     cl_log_event("info", "render time : %1 ms (upd:%2, process:%3)", current_time-last_time, flip_time-last_time, current_time-flip_time);
                 cl_log_event("info", "##DETAILS   Clear:%1, Update:%2, Draw:%3, Flip:%4 ", clear_time-last_time, update_time-clear_time, draw_time-update_time, flip_time-draw_time);
                 int timeToSleep = 10 - (current_time-last_time);
-                if(timeToSleep > 0)
-                    CL_System::sleep(timeToSleep);
+                //if(timeToSleep > 0)
+                    //CL_System::sleep(timeToSleep);
                 //CL_System::sleep(10);
             }
         }
